@@ -1,0 +1,13 @@
+{
+  "name": "hablemos-de-voz",
+  "version": "1.0.0",
+  "description": "Una charla divulgativa sobre el procesamiento de voz usando Python",
+  "main": "index.js",
+  "repository": "https://github.com/contraslash/hablemos-de-voz",
+  "author": "Mauricio Collazos",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "mdx-deck": "^3.0.13"
+  }
+}
