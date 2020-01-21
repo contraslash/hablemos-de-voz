@@ -8,6 +8,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "gatsby": "2.18.4",
     "mdx-deck": "^3.0.13",
     "wavesurfer.js": "^3.3.1"
   },
