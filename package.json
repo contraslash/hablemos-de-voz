@@ -9,5 +9,13 @@
   "private": false,
   "dependencies": {
     "mdx-deck": "^3.0.13"
+  },
+  "resolutions": {
+    "mdx-deck/**/gatsby": "2.18.4"
+  },
+  "scripts": {
+    "start": "mdx-deck index.mdx",
+    "build": "mdx-deck build index.mdx",
+    "postbuild": "rm -rf docs && mv public docs"
   }
 }
