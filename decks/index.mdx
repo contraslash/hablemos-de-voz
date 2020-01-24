@@ -17,12 +17,16 @@ https://contraslash.github.io/hablemos-de-voz/
 ---
 
 import { SimpleWave } from '../components/simple_component'
+import voz_agua from '../static/img/01_voz_agua.png'
+import voz_agua_zoom from '../static/img/01_voz_agua_zoom.png'
+import voz_agua_quantization from '../static/img/01_voz_agua_quantization.png'
+import agua_wav from '../static/wav/agua.wav'
 
-<SimpleWave src="static/wav/agua.wav" />
+<SimpleWave src={agua_wav} />
 
-<img src="static/img/01_voz_agua.png" />
-<img src="static/img/01_voz_agua_zoom.png" />
-<img src="static/img/01_voz_agua_quantization.png" />
+<img src={voz_agua} />
+<img src={voz_agua_zoom} />
+<img src={voz_agua_quantization} />
 
 Una señal de audio
 

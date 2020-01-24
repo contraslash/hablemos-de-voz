@@ -10,7 +10,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "webpack",
-    "start": "webpack-dev-server --hot"
+    "start": "webpack-dev-server --hot",
+    "gh-pages": "npx gh-pages -d dist"
   },
   "dependencies": {
     "prop-types": "^15.7.2",
