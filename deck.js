@@ -154,9 +154,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mdx_js_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mdx-js/react */ "./node_modules/@mdx-js/react/dist/esm.js");
 /* harmony import */ var _static_img_qr_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../static/img/qr.png */ "./static/img/qr.png");
 /* harmony import */ var _components_simple_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/simple_component */ "./components/simple_component.js");
+/* harmony import */ var _static_img_01_voz_agua_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../static/img/01_voz_agua.png */ "./static/img/01_voz_agua.png");
+/* harmony import */ var _static_img_01_voz_agua_zoom_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../static/img/01_voz_agua_zoom.png */ "./static/img/01_voz_agua_zoom.png");
+/* harmony import */ var _static_img_01_voz_agua_quantization_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../static/img/01_voz_agua_quantization.png */ "./static/img/01_voz_agua_quantization.png");
+/* harmony import */ var _static_wav_agua_wav__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../static/wav/agua.wav */ "./static/wav/agua.wav");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 /* @jsx mdx */
+
+
+
+
 
 
 
@@ -270,14 +278,14 @@ function MDXContentWrapperSlide3(props) {
       components: components,
       mdxType: "MDXLayout"
     }), Object(_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__["mdx"])(_components_simple_component__WEBPACK_IMPORTED_MODULE_3__["SimpleWave"], {
-      src: "static/wav/agua.wav",
+      src: _static_wav_agua_wav__WEBPACK_IMPORTED_MODULE_7__["default"],
       mdxType: "SimpleWave"
     }), Object(_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__["mdx"])("img", {
-      src: "static/img/01_voz_agua.png"
+      src: _static_img_01_voz_agua_png__WEBPACK_IMPORTED_MODULE_4__["default"]
     }), Object(_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__["mdx"])("img", {
-      src: "static/img/01_voz_agua_zoom.png"
+      src: _static_img_01_voz_agua_zoom_png__WEBPACK_IMPORTED_MODULE_5__["default"]
     }), Object(_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__["mdx"])("img", {
-      src: "static/img/01_voz_agua_quantization.png"
+      src: _static_img_01_voz_agua_quantization_png__WEBPACK_IMPORTED_MODULE_6__["default"]
     }), Object(_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__["mdx"])("p", null, `Una señal de audio`));
   }
 
@@ -43310,7 +43318,34 @@ __webpack_require__.r(__webpack_exports__);
 
  // SPECTACLE_CLI_THEME_START
 
-const theme = {}; // SPECTACLE_CLI_THEME_END
+const theme = {
+  colors: {
+    primary: '#888888',
+    secondary: '#000000',
+    tertiary: '#ffffff',
+    quaternary: '#ffc951',
+    quinary: '#8bddfd'
+  },
+  fonts: {
+    header: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+    text: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+    monospace: '"Consolas", "Menlo", monospace'
+  },
+  fontSizes: {
+    h1: '52px',
+    h2: '44px',
+    h3: '40px',
+    h4: '32px',
+    text: '26px',
+    monospace: '20px'
+  },
+  space: {
+    headerMargin: '16px 16px 24px',
+    textMargin: '16px',
+    listMargin: '16px 0',
+    slidePadding: '2em'
+  }
+}; // SPECTACLE_CLI_THEME_END
 // SPECTACLE_CLI_MDX_START
 
  // SPECTACLE_CLI_MDX_END
@@ -43345,6 +43380,45 @@ Object(react_dom__WEBPACK_IMPORTED_MODULE_1__["render"])(Object(react__WEBPACK_I
 
 /***/ }),
 
+/***/ "./static/img/01_voz_agua.png":
+/*!************************************!*\
+  !*** ./static/img/01_voz_agua.png ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "919d19f5c87e4d4f5c80732b0effba1f.png");
+
+/***/ }),
+
+/***/ "./static/img/01_voz_agua_quantization.png":
+/*!*************************************************!*\
+  !*** ./static/img/01_voz_agua_quantization.png ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "34272a63b841a20186b7d63935793401.png");
+
+/***/ }),
+
+/***/ "./static/img/01_voz_agua_zoom.png":
+/*!*****************************************!*\
+  !*** ./static/img/01_voz_agua_zoom.png ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "3cd56290bd6bb9a3dcb916bc75d950ef.png");
+
+/***/ }),
+
 /***/ "./static/img/qr.png":
 /*!***************************!*\
   !*** ./static/img/qr.png ***!
@@ -43355,6 +43429,19 @@ Object(react_dom__WEBPACK_IMPORTED_MODULE_1__["render"])(Object(react__WEBPACK_I
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "98d90ad28ccfd14c685180ecc7d778fc.png");
+
+/***/ }),
+
+/***/ "./static/wav/agua.wav":
+/*!*****************************!*\
+  !*** ./static/wav/agua.wav ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "97de57317555b09bc3666b3beb25cba0.wav");
 
 /***/ })
 
