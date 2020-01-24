@@ -8,16 +8,15 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "gatsby": "2.18.4",
-    "mdx-deck": "^3.0.13",
-    "wavesurfer.js": "^3.3.1"
-  },
-  "resolutions": {
-    "mdx-deck/**/gatsby": "2.18.4"
+    "gatsby": "^2.19.1",
+    "gatsby-theme-mdx-deck": "^3.0.13",
+    "mdx-deck": "^3.0.13"
   },
   "scripts": {
-    "start": "mdx-deck index.mdx",
-    "build": "mdx-deck build index.mdx",
-    "postbuild": "rm -rf docs && mv public docs"
+    "start": "gatsby develop",
+    "clean": "gatsby clean",
+    "build": "gatsby build --prefix-paths",
+    "serve": "gatsby serve --prefix-paths",
+    "gh-pages": "npx gh-pages -d public"
   }
 }
