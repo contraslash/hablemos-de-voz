@@ -3,6 +3,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const remarkMath = require('remark-math');
+const rehypeKatex = require('rehype-katex');
+
 // Customized babel loader with the minimum we need to get `mdx` libraries
 // working, which unfortunately codegen JSX instead of JS.
 const babelLoader = {
@@ -43,11 +46,35 @@ module.exports = {
       // `.mdx` files go through babel and our mdx transforming loader.
       {
         test: /\.mdx$/,
-        use: [babelLoader, require.resolve('spectacle-mdx-loader')]
+        use: [
+            babelLoader,
+            require.resolve('spectacle-mdx-loader',
+                {
+                  remarkPlugins: [remarkMath],
+                  rehypePlugins: [rehypeKatex]
+                }
+            )
+        ]
       },
       {
         test: /\.(png|svg|jpg|gif|wav)$/,
         use: [require.resolve('file-loader')]
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/'
+            }
+          }
+        ]
       }
     ]
   },
