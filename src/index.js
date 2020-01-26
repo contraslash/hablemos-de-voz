@@ -1,86 +1,49 @@
-import { createElement } from 'react';
+import React, { createElement } from 'react';
 import { render } from 'react-dom';
 import { MDXProvider } from '@mdx-js/react';
+
+import createTheme from 'spectacle/lib/themes/default';
 
 import {
     Deck,
     Slide,
     Notes,
-    FlexBox,
-    Box,
-    Progress,
-    FullScreen,
-    mdxComponentMap
+    Heading,
+    List,
+    ListItem,
 } from 'spectacle';
 
 // SPECTACLE_CLI_THEME_START
-const theme = {
-    colors: {
-        primary: '#888888',
-        secondary: '#000000',
-        tertiary: '#ffffff',
-        quaternary: '#ffc951',
-        quinary: '#8bddfd'
-    },
-    fonts: {
-        header: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-        text: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-        monospace: '"Consolas", "Menlo", monospace'
-    },
-    fontSizes: {
-        h1: '52px',
-        h2: '44px',
-        h3: '40px',
-        h4: '32px',
-        text: '26px',
-        monospace: '20px'
-    },
-    space: {
-        headerMargin: '16px 16px 24px',
-        textMargin: '16px',
-        listMargin: '16px 0',
-        slidePadding: '2em'
-    }};
-// SPECTACLE_CLI_THEME_END
+const theme = createTheme(
+  {
+    primary: 'white',
+    secondary: 'black'
+  },
+  {
+    primary: 'Yanone Kaffeesatz',
+    secondary: {
+      name: 'Droid Serif',
+      googleFont: true,
+      styles: ['400', '700i']
+    }
+  }
+);
 
 
 // SPECTACLE_CLI_MDX_START
 import slides, { notes } from '../decks/index.mdx';
 // SPECTACLE_CLI_MDX_END
 
+console.log(slides);
+console.log(notes);
 
-// SPECTACLE_CLI_TEMPLATE_START
-const template = () =>
-    createElement(
-        FlexBox,
-        {
-            justifyContent: 'space-between',
-            position: 'absolute',
-            bottom: 0,
-            width: 1
-        },
-        [
-            createElement(
-                Box,
-                { padding: 10, key: 'progress-templ' },
-                createElement(Progress)
-            ),
-            createElement(
-                Box,
-                { padding: 10, key: 'fullscreen-templ' },
-                createElement(FullScreen)
-            )
-        ]
-    );
-// SPECTACLE_CLI_TEMPLATE_END
 
 const MDXSlides = () =>
     createElement(
         Deck,
         {
-            loop: true,
-            theme,
-            template
+            loop: false,
+            theme
         },
         slides
             .map((MDXSlide, i) => [MDXSlide, notes[i]])
@@ -93,14 +56,42 @@ const MDXSlides = () =>
                     },
                     createElement(
                         MDXProvider,
-                        {
-                            components: mdxComponentMap
-                        },
+                        null,
                         createElement(MDXSlide, null),
                         createElement(Notes, null, createElement(MDXNotesForSlide, null))
                     )
                 )
             )
     );
+
+const RegularSlides = () => {
+    return (
+        <Deck transition={['zoom','slide']} transitionDuration={800}>
+            <Slide bgColor="primary">
+                <Heading size={1} fit caps>
+                    React Presentations
+                </Heading>
+                <Heading size={2} fit caps>
+                    Written In React
+                </Heading>
+            </Slide>
+            <Slide bgColor="black">
+                <Heading size={1} fit textColor="primary" textFont="secondary">
+                    Wait What?
+                </Heading>
+            </Slide>
+            <Slide bgColor="primary" textColor="black" align="center top">
+                <Heading size={1} textColor="black" textFont="primary">
+                    Thats right
+                </Heading>
+                <List>
+                    <ListItem>Inline style based theme system</ListItem>
+                    <ListItem>Autofit Text</ListItem>
+                    <ListItem>PDF Export</ListItem>
+                </List>
+            </Slide>
+        </Deck>
+    )
+}
 
 render(createElement(MDXSlides, null), document.getElementById('root'));
