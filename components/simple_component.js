@@ -15,8 +15,10 @@ export class SimpleWave extends React.Component {
     this.$waveform = this.$el.querySelector('.wave');
     this.wavesurfer = WaveSurfer.create({
       container: this.$waveform,
-      waveColor: 'violet',
-      progressColor: 'purple'
+      waveColor: 'blue',
+      progressColor: 'purple',
+      mediaControls: true,
+      backend: 'MediaElement'
     })
     this.wavesurfer.load(this.props.src)
   }
@@ -25,7 +27,7 @@ export class SimpleWave extends React.Component {
   }
   render() {
     return (
-      <div className='waveform'>
+      <div className='waveform' style={{width: "100%"}}>
         <div className='wave'></div>
       </div>
     )

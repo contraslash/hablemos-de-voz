@@ -1,3 +1,6 @@
+import { VerticalAlign, HorizontalAlign, Divider } from '../containers/layout'
+import { SimpleWave } from '../components/simple_component'
+
 # Hablemos de voz
 ## Mauricio Collazos
 
@@ -14,21 +17,34 @@ https://contraslash.github.io/hablemos-de-voz/
 
 # Qué es la voz?
 
----
+<Divider />
 
-import { SimpleWave } from '../components/simple_component'
-import voz_agua from '../static/img/01_voz_agua.png'
-import voz_agua_zoom from '../static/img/01_voz_agua_zoom.png'
-import voz_agua_quantization from '../static/img/01_voz_agua_quantization.png'
 import agua_wav from '../static/wav/agua.wav'
 
 <SimpleWave src={agua_wav} />
 
+Una señal de audio
+
+---
+
+## Como representamos senales de audio?
+
+import voz_agua from '../static/img/01_voz_agua.png'
+import voz_agua_zoom from '../static/img/01_voz_agua_zoom.png'
+import voz_agua_quantization from '../static/img/01_voz_agua_quantization.png'
+
+
+<HorizontalAlign>
+
 <img src={voz_agua} />
+<Divider />
 <img src={voz_agua_zoom} />
+<Divider/>
 <img src={voz_agua_quantization} />
 
-Una señal de audio
+
+
+</HorizontalAlign>
 
 ---
 # Cómo se representa la voz?
@@ -36,3 +52,4 @@ Una señal de audio
 ---
 
 # Cómo extraemos información de la voz?
+
