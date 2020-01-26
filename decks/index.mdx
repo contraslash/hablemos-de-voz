@@ -1,5 +1,7 @@
+import { InlineMath, BlockMath } from 'react-katex';
 import { VerticalAlign, HorizontalAlign, Divider } from '../containers/layout'
 import { SimpleWave } from '../components/simple_component'
+import 'katex/dist/katex.min.css';
 
 # Hablemos de voz
 ## Mauricio Collazos
@@ -19,11 +21,25 @@ https://contraslash.github.io/hablemos-de-voz/
 
 <Divider />
 
-import agua_wav from '../static/wav/agua.wav'
+import agua_wav from '../static/wav/01_agua.wav'
 
 <SimpleWave src={agua_wav} />
 
-Una señal de audio
+---
+
+# Una senal de audio
+
+---
+
+# Una senal como esta?
+
+import A440 from '../static/wav/02_A_440.wav'
+
+<SimpleWave src={A440} />
+
+<InlineMath math="y(t) = A sin(\omega t + \varphi )"/>
+
+
 
 ---
 
@@ -34,17 +50,12 @@ import voz_agua_zoom from '../static/img/01_voz_agua_zoom.png'
 import voz_agua_quantization from '../static/img/01_voz_agua_quantization.png'
 
 
-<HorizontalAlign>
-
 <img src={voz_agua} />
 <Divider />
 <img src={voz_agua_zoom} />
 <Divider/>
 <img src={voz_agua_quantization} />
 
-
-
-</HorizontalAlign>
 
 ---
 # Cómo se representa la voz?
