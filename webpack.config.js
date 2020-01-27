@@ -81,7 +81,7 @@ module.exports = {
   // Default for boilerplate generation.
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Spectacle presentation',
+      title: 'Hablemos de Voz',
       template: './src/index.html'
     })
   ]

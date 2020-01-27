@@ -1,6 +1,6 @@
 import { InlineMath, BlockMath } from 'react-katex';
-import { VerticalAlign, HorizontalAlign, Divider } from '../containers/layout'
-import { SimpleWave } from '../components/simple_component'
+import { VerticalAlign, HorizontalAlign, JustifyAlign, Divider } from '../containers/layout'
+import { SimpleWave, MyDropZone } from '../components/simple_component'
 import 'katex/dist/katex.min.css';
 
 # Hablemos de voz
@@ -39,8 +39,6 @@ import A440 from '../static/wav/02_A_440.wav'
 
 <InlineMath math="y(t) = A sin(\omega t + \varphi )"/>
 
-
-
 ---
 
 ## Como representamos senales de audio?
@@ -56,11 +54,105 @@ import voz_agua_quantization from '../static/img/01_voz_agua_quantization.png'
 <Divider/>
 <img src={voz_agua_quantization} />
 
-
----
-# Cómo se representa la voz?
-
 ---
 
-# Cómo extraemos información de la voz?
+# Cómo extraemos información de una senal?
 
+import A440_piano from '../static/wav/02_A_440_piano.wav'
+
+<SimpleWave src={A440_piano} />
+
+---
+
+# Armonicos
+
+![Armonicos](https://media.giphy.com/media/QW2KVsnNquaiI/giphy.gif)
+
+---
+
+# Armonicos
+
+![Armonicos 2](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Overtone.jpg/800px-Overtone.jpg)
+https://en.wikipedia.org/wiki/Overtone
+
+---
+
+# Fourier
+
+<InlineMath math="f(x) = \frac{1}{2} \, a_{0} + \sum_{n=1}^{\infty} \left[ 
+   a_{n}\,\boldsymbol{\cos} (n\,x) + b_{n} \,\boldsymbol{\sin} (n\,x) \right]"/>
+   
+<Divider/>
+   
+[Pero ¿qué es la Transformada de Fourier? Una introducción visual](https://www.youtube.com/watch?v=spUNpyF58BY)
+
+---
+
+import A_440_piano_fourier from '../static/img/04_A_440_piano_fourier.png'
+
+<JustifyAlign>
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.io import wavfile
+
+frequency, wave = wavfile.read("A_440_piano.wav")
+
+window = wave
+plt.plot(fourier[:int(len(fourier)/2)])
+```
+
+</JustifyAlign>
+
+<img src={A_440_piano_fourier} />
+
+---
+import A_440_piano_fourier_with_harmonics from '../static/img/04_A_440_piano_fourier_with_harmonics.png'
+
+<JustifyAlign>
+
+```python
+plt.axvline(440,color="red")
+plt.axvline(440*2,color="red")
+plt.axvline(440*3,color="red")
+plt.axvline(440*4,color="red")
+plt.axvline(440*5,color="red")
+plt.axvline(440*6,color="red")
+```
+
+</JustifyAlign>
+
+<img src={A_440_piano_fourier_with_harmonics} />
+
+---
+
+# Y un piano que tiene que ver con la voz?
+
+---
+
+# Aparato fonador
+
+<img src="https://lh4.googleusercontent.com/60tWN5jh9fQSfG3kf5RmIR7o98Nen1iMwMLEHqZQ3YmIBMgSCHhuy9jgSuK5weoBoDP0BOYrfnOu9wJscW3rNfjHy4dg-odkITTjwxq7ZKavZIaLD_CbRJhHQJnXV_gYH0xtH2ssz0E"/>
+http://irenemena99.blogspot.com/2016/02/aparato-fonador.html
+
+---
+import a_section_fourier_transform from '../static/img/05_a_section_fourier_transform.png'
+import male_a_spa from '../static/wav/05_male_a_spa.wav'
+
+<SimpleWave src={male_a_spa} />
+
+<img src={a_section_fourier_transform} />
+
+---
+import male_a_spa_with_spectogram from '../static/img/05_male_a_spa_with_spectogram.png'
+
+# Y finalmente llegamos a un espectrograma
+
+<img src={male_a_spa_with_spectogram} />
+---
+
+# Formantes Vocalicos para el espanol
+
+![Formantes Vocalicos](https://upload.wikimedia.org/wikipedia/commons/f/fa/Spanish_Vowel_Formants_Bradlow1995.png)
+https://es.wikipedia.org/wiki/Formante
