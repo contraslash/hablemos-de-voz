@@ -173,3 +173,77 @@ https://es.wikipedia.org/wiki/Alfabeto_Fon%C3%A9tico_Internacional
 <img width="60%" src="https://838dts3d6s-flywheel.netdna-ssl.com/wp-content/uploads/2014/03/Screen-Shot-2017-06-12-at-4.39.50-PM-1.png"/>
 
 https://ncbegin.org/es/el-sistema-auditivo/
+
+
+---
+
+# Extraccion de caracteristicas
+
+- Mel Frequency Cepstral Coefficients (MFCC)
+- Perceptual Linear Prediction (PLP)
+- Linear Frequency Cepstral Coefficients (LFCC) 
+- Power Normalized Cepstral Coefficients (PNCC)
+- Wavelet Package Features (WPF) 
+- Subband-Based Cepstrap Parameters (SBC)
+- Mixed Wavelet Packet Advances Combinational Encoder (MWP-ACE) 
+
+---
+import preemphasis from '../static/img/07_preemphasis.png'
+# MFCC
+
+## Preemfasis
+
+<InlineMath math="y[n] = x[n] - \alpha x[n-1] | 0.9 \le \alpha \le 1.0"/>
+
+```python
+np.append(wave[0], wave[1:]- 0.95*wave[:-1])
+```
+
+
+<img src={preemphasis} />
+
+---
+
+## Windowing
+
+<BlockMath math="y[n] = w[n]s[n]"/>
+
+Ventana Rectangular
+
+<BlockMath math="
+w[n]= \left\{ \begin{array}{lcc}
+             1 &   si  & 0 \leq n \le L-1 \\
+             \\ 0 &  de\ lo\ contrario
+             \end{array}
+   \right."/>
+
+Ventana de Hamming
+
+<BlockMath math="
+w[n]= \left\{ \begin{array}{lcc}
+             0.54 - 0.46 cos(\frac{2 \pi n}{L}) &   si  & 0 \leq n \le L-1 \\
+             \\ 0 &  de\ lo\ contrario
+             \end{array}
+   \right."/>
+
+---
+
+import windowed_frame from '../static/img/08_windowed_frame.png'
+import window_signals from '../static/img/08_window_signals.png'
+
+<JustifyAlign>
+
+```python
+frame_size = int(A440_freq*0.025)
+frame = A440[:frame_size]
+window =signal.windows.hamming(frame_size)
+windowed_frame = frame*window
+```
+
+</JustifyAlign>
+
+<img src={window_signals} />
+
+---
+
+<img src={windowed_frame} />
