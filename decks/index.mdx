@@ -1,4 +1,5 @@
 import { InlineMath, BlockMath } from 'react-katex';
+import { CodePane,  Code, ListItem, List, Appear, Text, Slide, Image } from 'spectacle';
 import { VerticalAlign, HorizontalAlign, JustifyAlign, Divider } from '../containers/layout'
 import { SimpleWave, MyDropZone } from '../components/simple_component'
 import 'katex/dist/katex.min.css';
@@ -10,7 +11,7 @@ import 'katex/dist/katex.min.css';
 
 import qr from '../static/img/qr.png'
 
-<img src={qr} />
+<Image src={qr} />
 
 https://contraslash.github.io/hablemos-de-voz/
 
@@ -41,18 +42,25 @@ import A440 from '../static/wav/02_A_440.wav'
 
 ---
 
-## Como representamos senales de audio?
+# Como representamos senales de audio?
 
 import voz_agua from '../static/img/01_voz_agua.png'
 import voz_agua_zoom from '../static/img/01_voz_agua_zoom.png'
 import voz_agua_quantization from '../static/img/01_voz_agua_quantization.png'
 
+<Image src={voz_agua} />
 
-<img src={voz_agua} />
-<Divider />
-<img src={voz_agua_zoom} />
-<Divider/>
-<img src={voz_agua_quantization} />
+---
+
+# Como representamos senales de audio?
+
+<Image src={voz_agua_zoom} />
+
+---
+
+# Como representamos senales de audio?
+
+<Image src={voz_agua_quantization} />
 
 ---
 
@@ -79,16 +87,18 @@ https://en.wikipedia.org/wiki/Overtone
 
 # Fourier
 
-<InlineMath math="f(x) = \frac{1}{2} \, a_{0} + \sum_{n=1}^{\infty} \left[ 
+<InlineMath math="f(x) = \frac{1}{2} \, a_{0} + \sum_{n=1}^{\infty} \left[
    a_{n}\,\boldsymbol{\cos} (n\,x) + b_{n} \,\boldsymbol{\sin} (n\,x) \right]"/>
-   
+
 <Divider/>
-   
+
 [Pero ¿qué es la Transformada de Fourier? Una introducción visual](https://www.youtube.com/watch?v=spUNpyF58BY)
 
 ---
 
 import A_440_piano_fourier from '../static/img/04_A_440_piano_fourier.png'
+
+# Fourier
 
 <JustifyAlign>
 
@@ -99,7 +109,7 @@ from scipy.io import wavfile
 
 frequency, wave = wavfile.read("A_440_piano.wav")
 
-window = wave
+fourier = np.fft.fft(wave)
 plt.plot(fourier[:int(len(fourier)/2)])
 ```
 
@@ -109,6 +119,8 @@ plt.plot(fourier[:int(len(fourier)/2)])
 
 ---
 import A_440_piano_fourier_with_harmonics from '../static/img/04_A_440_piano_fourier_with_harmonics.png'
+
+# Fourier
 
 <JustifyAlign>
 
@@ -140,9 +152,11 @@ http://irenemena99.blogspot.com/2016/02/aparato-fonador.html
 import a_section_fourier_transform from '../static/img/05_a_section_fourier_transform.png'
 import male_a_spa from '../static/wav/05_male_a_spa.wav'
 
+# Todos digan A
+
 <SimpleWave src={male_a_spa} />
 
-<img src={a_section_fourier_transform} />
+<Image src={a_section_fourier_transform} width="60%"/>
 
 ---
 import male_a_spa_with_spectogram from '../static/img/05_male_a_spa_with_spectogram.png'
@@ -181,11 +195,11 @@ https://ncbegin.org/es/el-sistema-auditivo/
 
 - Mel Frequency Cepstral Coefficients (MFCC)
 - Perceptual Linear Prediction (PLP)
-- Linear Frequency Cepstral Coefficients (LFCC) 
+- Linear Frequency Cepstral Coefficients (LFCC)
 - Power Normalized Cepstral Coefficients (PNCC)
-- Wavelet Package Features (WPF) 
+- Wavelet Package Features (WPF)
 - Subband-Based Cepstrap Parameters (SBC)
-- Mixed Wavelet Packet Advances Combinational Encoder (MWP-ACE) 
+- Mixed Wavelet Packet Advances Combinational Encoder (MWP-ACE)
 
 ---
 import preemphasis from '../static/img/07_preemphasis.png'
@@ -204,25 +218,25 @@ np.append(wave[0], wave[1:]- 0.95*wave[:-1])
 
 ---
 
-## Windowing
+# Windowing
 
 <BlockMath math="y[n] = w[n]s[n]"/>
 
 Ventana Rectangular
 
 <BlockMath math="
-w[n]= \left\{ \begin{array}{lcc}
-             1 &   si  & 0 \leq n \le L-1 \\
-             \\ 0 &  de\ lo\ contrario
+w[n]= \left\{ \begin{array}{lc}
+             1  & 0 \leq n \le L-1 \\
+             \\ 0 & n \lt 0 | n \gt L
              \end{array}
    \right."/>
 
 Ventana de Hamming
 
 <BlockMath math="
-w[n]= \left\{ \begin{array}{lcc}
-             0.54 - 0.46 cos(\frac{2 \pi n}{L}) &   si  & 0 \leq n \le L-1 \\
-             \\ 0 &  de\ lo\ contrario
+w[n]= \left\{ \begin{array}{lc}
+             0.54 - 0.46 cos(\frac{2 \pi n}{L})  & 0 \leq n \le L-1 \\
+             \\ 0 & n \lt 0 | n \gt L
              \end{array}
    \right."/>
 
@@ -230,6 +244,8 @@ w[n]= \left\{ \begin{array}{lcc}
 
 import windowed_frame from '../static/img/08_windowed_frame.png'
 import window_signals from '../static/img/08_window_signals.png'
+
+# Windowing
 
 <JustifyAlign>
 
@@ -246,4 +262,224 @@ windowed_frame = frame*window
 
 ---
 
+# Windowing
+
 <img src={windowed_frame} />
+
+---
+
+# Filtros Triangulares
+
+<BlockMath math="
+H_m[k]= \left\{ \begin{array}{lc}
+  0  & k \lt f[m-1] \\
+  \frac{k-f[m-1]}{f[m]-f[m-1]} & f[m-1] \le k \le f[m] \\
+  \frac{f[m+1]-k}{f[m+1]-f[m]} & f[m] \le k \le f[m+1] \\
+  0 & k > f[m+1]
+             \end{array}
+   \right."/>
+
+
+---
+
+# Filtros Triangulares
+
+<JustifyAlign>
+
+```python
+fbank = np.zeros([number_of_filters, nfft])
+for i in range(0, number_of_filters):
+    for j in range(int(b[i]), int(b[i+1])):
+        fbank[i,j] = (j-b[i]) / (b[i+1] - b[i])
+    for j in range(int(b[i+1]), int(b[i+2])):
+        fbank[i,j] = (b[i+2] - j) / (b[i+2] - b[i+1])
+```
+</JustifyAlign>
+
+---
+
+import filterbanks from '../static/img/09_filterbanks.png'
+
+# Filtros Triangulares
+
+<JustifyAlign>
+
+```python
+plt.plot(fbank[0])
+plt.plot(fbank[4])
+plt.plot(fbank[9])
+...
+plt.plot(fbank[34])
+plt.plot(fbank[39])
+```
+</JustifyAlign>
+
+<Image src={filterbanks} width="70%"/>
+
+---
+# Cepstrum
+
+<BlockMath math="
+c[n] = \sum_{n=0}^{N-1}log(\left| \sum _{n=0}^{N-1}x[n] e^{-j\frac{2 \pi}{N}kn}
+\right|)e^{j\frac{2 \pi}{N}kn}"/>
+
+---
+
+# Y eso en Python como es?
+
+<JustifyAlign>
+
+```python
+np.dot(
+    np.fft.ifft(
+        np.log(
+            np.absolute(
+                np.fft.fft(
+                    frame_real_wave*window
+                )
+            )
+        )
+    ),
+    fbank.T
+)
+```
+</JustifyAlign>
+
+---
+
+import simplified_fe from '../static/img/10_simplified_fe.png'
+
+# Y Porque tan emocionado?
+
+<Image src={simplified_fe}/>
+
+---
+
+# Pero yo no tengo tiempo de ponerme a implementar extractores de caracteristicas
+
+- [LibRosa](https://librosa.github.io/librosa/generated/librosa.feature.mfcc.html)
+- [Speech Features](https://github.com/jameslyons/python_speech_features)
+- [Sonopy](https://github.com/MycroftAI/sonopy)
+- [SpeechPy](https://github.com/astorfi/speechpy)
+- [Numpy ML](https://github.com/ddbourgin/numpy-ml)
+- [Speech Signal Processing and Classification](https://github.com/gionanide/Speech_Signal_Processing_and_Classification)
+
+---
+
+# AX = b
+
+Aja, y cual b
+
+---
+import vq from '../static/img/11_vq.png'
+
+# Un K-Means despues
+
+k = len(set(transcription)) + 1
+
+<Image src={vq}/>
+
+
+---
+
+# GMM
+
+<BlockMath math="
+f(x|\mu,\Sigma) =\sum_{k=1}^{M}{c_k\frac{1}{\sqrt{2\pi|\Sigma_k|}}e^{(x-\mu_k)^T\Sigma^{-1}(x-\mu_k)}}
+" />
+
+---
+import donde_esta_la_data from '../static/img/20_donde_esta_la_data.gif'
+
+<Image src={donde_esta_la_data}/>
+
+---
+
+Resource name|URL|Licence|Annotation Level|Length
+|-|-|-|-|-|
+Open Speech corpus|[openspeechcorpus.contraslash.com](http://openspeechcorpus.contraslash.com)|MIT|Utterance|50h +
+CIEMPIESS|[ciempiess.org](http://www.ciempiess.org/downloads)|CC-Share A like v4.0| Utterance | 17h
+DIMEx100|[turing.iimas.unam.mx](http://turing.iimas.unam.mx/~luis/DIME/CORPUS-DIMEX.html)| - |Phonetic|5h
+VoxForve|[VoxForge.org](voxforge.org)| GPL | Utterance | 50+
+LibrVox|[libribox.org](https://librivox.org/)| Public Domain | No annotation | 400+
+Common Voice|[voice.mozilla.org](https://voice.mozilla.org/en/datasets)| CC | Uterance | 27+
+M-AILABS|[caito.de](https://www.caito.de/2019/01/the-m-ailabs-speech-dataset/#more-242)| Custom | Uterance | 108
+Heroico|[Open SLR 39](http://www.openslr.org/39/)| - | Uterance | 13
+Google Language Resources AR | [Open SLR 61](http://www.openslr.org/61/) | CC-Share A like v4.0 | Uterance | -
+TEDx Spanish Corpus | [Open SLR 67](http://www.openslr.org/67/)| CC-Share A like v4.0 | Utterance | 24
+Google Language Resources CH, CO, PR PR VE | [Open SLR 71](http://www.openslr.org/71/) | CC-Share A like v4.0 | Uterance | -
+LibriVox Spanish | [LDC2020S01](https://catalog.ldc.upenn.edu/LDC2020S01)|Librivox Open Licence|Uterance| 73
+
+---
+# Open Speech Corpus
+
+- Cuentos
+- Afasia
+- Palabras aisladas
+
+
+- [Aplicacion movil](https://play.google.com/store/apps/details?id=com.contraslash.android.openspeechcorpus)
+- [CLI](https://pypi.org/project/openspeechcorpus/)
+
+---
+
+![](https://lh3.googleusercontent.com/XDvOFQGYiX12Lnhd6kKq4DzCqzlnI7YKCS5ZvQkZGat2uQpniCl9DYQSe_7nihgVRhI=w1440-h799-rw)
+![](https://lh3.googleusercontent.com/LARaD4yTgHpqg7ys9KvMkMiJUtDghwXBiK5L9lxHR_-r3J4-adCjWe3FjAi4ApLGRbU=w1440-h799-rw)
+![](https://lh3.googleusercontent.com/G6oQm-rQnyY9oMIynpLlXG7zKscQFkwMD20qpzEKFCUzYQIT_TviEDPr76r6Qq_crWI=w1440-h799-rw)
+
+---
+
+# Nada mas facil para comenzar?
+
+---
+
+
+# [Speech Recognition](https://pypi.org/project/SpeechRecognition/)
+
+- [CMU Sphinx](http://cmusphinx.sourceforge.net/wiki/)
+- [Google Cloud Speech API](https://cloud.google.com/speech/)
+- [Wit.ai](https://wit.ai/)
+- [Microsoft Bing Voice Recognition](https://www.microsoft.com/cognitive-services/en-us/speech-api)
+- [Houndify API](https://houndify.com/)
+- [IBM Speech to Text](http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/speech-to-text.html)
+- [Snowboy Hotword Detection](https://snowboy.kitt.ai/)
+
+---
+
+<JustifyAlign>
+
+```python
+@app.route("/recognize", methods=["GET", "POST"])
+def recognize():
+    if request.method == "POST":
+        if "audio" not in request.files:
+            return ({"response": "You must specify an audio parameter with
+                                  a wav file"}, 400)
+        audio_file = sr.AudioFile(request.files["audio"])
+        with audio_file as source:
+            audio = recognizer.record(source)
+            hypothesis = recognizer.recognize_sphinx(
+                audio,
+                ( 'isolated_words_spa/words1.cd_semi_200',
+                  'isolated_words_spa/words1.lm.DMP',
+                  'isolated_words_spa/words1.dic'
+                )
+            )
+        return {"reponse": "Audio processed", "hypothesis": hypothesis}
+    else:
+        return {"response": "Please use the POST method and specify audio
+                             parameter with a wav file"}
+```
+
+</JustifyAlign>
+
+---
+
+![](https://i.kym-cdn.com/entries/icons/original/000/028/021/work.jpg)
+
+---
+
+Dar las gracias y huir
+
+![](https://media.giphy.com/media/9rRacglGbs68E/giphy.gif)
+

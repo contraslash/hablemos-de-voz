@@ -26,7 +26,5 @@ export const JustifyAlign = styled.div`
 `;
 
 export const Divider = ( { width = "10vw", height = "10vh" }) => {
-    console.log(height);
-    console.log(width);
     return <div style={{width, height}}/>
-}
+};

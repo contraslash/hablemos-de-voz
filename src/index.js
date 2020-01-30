@@ -11,6 +11,7 @@ import {
     Heading,
     List,
     ListItem,
+    Appear,
 } from 'spectacle';
 
 // SPECTACLE_CLI_THEME_START
@@ -34,8 +35,6 @@ const theme = createTheme(
 import slides, { notes } from '../decks/index.mdx';
 // SPECTACLE_CLI_MDX_END
 
-console.log(slides);
-console.log(notes);
 
 
 const MDXSlides = () =>
@@ -85,9 +84,9 @@ const RegularSlides = () => {
                     Thats right
                 </Heading>
                 <List>
-                    <ListItem>Inline style based theme system</ListItem>
-                    <ListItem>Autofit Text</ListItem>
-                    <ListItem>PDF Export</ListItem>
+                    <Appear><ListItem>Inline style based theme system</ListItem></Appear>
+                    <Appear><ListItem>Autofit Text</ListItem></Appear>
+                    <Appear><ListItem>PDF Export</ListItem></Appear>
                 </List>
             </Slide>
         </Deck>
@@ -95,3 +94,4 @@ const RegularSlides = () => {
 }
 
 render(createElement(MDXSlides, null), document.getElementById('root'));
+// render(createElement(RegularSlides, null), document.getElementById('root'));
