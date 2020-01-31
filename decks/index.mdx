@@ -174,14 +174,6 @@ import male_a_spa_with_spectogram from '../static/img/05_male_a_spa_with_spectog
 https://es.wikipedia.org/wiki/Formante
 
 ---
-import AFI from '../static/img/06_AFI.png'
-
-# Alfabeto Fonetico Internacional
-
-<img src={AFI} />
-https://es.wikipedia.org/wiki/Alfabeto_Fon%C3%A9tico_Internacional
-
----
 
 # Sistema auditivo
 <img width="60%" src="https://838dts3d6s-flywheel.netdna-ssl.com/wp-content/uploads/2014/03/Screen-Shot-2017-06-12-at-4.39.50-PM-1.png"/>
@@ -265,6 +257,14 @@ windowed_frame = frame*window
 # Windowing
 
 <img src={windowed_frame} />
+
+
+---
+import window_signals_real_audio from '../static/img/08_window_signals_real_audio.png'
+
+# Y en el audio real
+
+<img src={window_signals_real_audio} />
 
 ---
 
@@ -375,7 +375,16 @@ import vq from '../static/img/11_vq.png'
 
 # Un K-Means despues
 
-k = len(set(transcription)) + 1
+<JustifyAlign>
+
+```python
+transcription = "agua"
+num_clusters = len(set(transcription)) + 1
+kmeans = KMeans(n_clusters=num_clusters)
+results = kmeans.fit(mfccs)
+```
+
+</JustifyAlign>
 
 <Image src={vq}/>
 
@@ -387,6 +396,114 @@ k = len(set(transcription)) + 1
 <BlockMath math="
 f(x|\mu,\Sigma) =\sum_{k=1}^{M}{c_k\frac{1}{\sqrt{2\pi|\Sigma_k|}}e^{(x-\mu_k)^T\Sigma^{-1}(x-\mu_k)}}
 " />
+
+---
+
+import gmm from '../static/img/12_gmm.png'
+
+# GMM
+
+<JustifyAlign>
+
+```python
+transcription = "agua"
+num_clusters = len(set(transcription)) + 1
+gmm = mixture.GaussianMixture(n_components=num_clusters)
+gmm.fit(mfccs)
+```
+
+</JustifyAlign>
+
+<Image src={gmm}/>
+
+---
+
+# Muy bien con las ondas, y el lenguaje que?
+
+---
+
+import AFI from '../static/img/06_AFI.png'
+
+# Alfabeto Fonetico Internacional
+
+<img src={AFI} />
+https://es.wikipedia.org/wiki/Alfabeto_Fon%C3%A9tico_Internacional
+
+---
+
+# [MEXBET](http://www.ciempiess.org/Alfabetos_Foneticos/Evolucion_de_MEXBET.html)
+
+<HorizontalAlign>
+
+Consonantes|Labiales|Labiodentales|Dentales|Alveolares|Palatales|Alveolares
+-|-|-|-|-|-|-
+Oclusivos Sordos|p||t|||k
+Oclusivos Sonoros|b||d|||g
+Africado Sordo|||||tS|
+Fricativos Sordos||f||s||x
+Fricativos Sonoros|||||Z|
+Nasales|m|||n|n~|
+Lateral||||l||
+Vibrantes||||r( r ||
+
+</HorizontalAlign>
+
+---
+
+# MEXBET - Vocales
+
+<HorizontalAlign>
+
+Vocales|Anteriores|Media|Posteriores
+-|-|-|-
+Cerradas|i||u
+Medias|e||o
+Abierta||a|
+
+</HorizontalAlign>
+---
+
+# Lexicon
+
+---
+
+# Modelo de Lenguaje
+
+<BlockMath math="P(w_1^n) = \prod_{k=1}^{n}{P(w_k|w_1^{k-1})}"/>
+
+---
+
+# Generacion del modelo acustico con HMM
+
+- Entrenamiento con el Algoritmo [Baum-Welch](https://en.wikipedia.org/wiki/Baum%E2%80%93Welch_algorithm)
+- Decodificacion con el Algoritmo de [Viterbi](https://en.wikipedia.org/wiki/Viterbi_algorithm)
+
+---
+import queremos_redes from '../static/img/14_queremos_redes.jpg'
+
+
+<Image src={queremos_redes}/>
+
+---
+
+# Redes Neuronales
+
+- [Deep Speech](https://github.com/mozilla/DeepSpeech)
+- [Speech to Text Wavenet](https://github.com/buriburisuri/speech-to-text-wavenet)
+- [ASRT Speech Recognition](https://github.com/nl8590687/ASRT_SpeechRecognition)
+- [Deep Speech 2](https://github.com/PaddlePaddle/DeepSpeech)
+
+---
+import deepspeech_architecture from '../static/img/15_deepspeech_architecture.png'
+
+# Arquitectura de DeepSpeech
+
+<Image src={deepspeech_architecture}/>
+
+[Archive page](https://arxiv.org/abs/1412.5567)
+
+[Deep Speech: Free(ing) Speech with Deep Learning](https://www.youtube.com/watch?v=ZDgHS0wTYuo)
+
 
 ---
 import donde_esta_la_data from '../static/img/20_donde_esta_la_data.gif'
