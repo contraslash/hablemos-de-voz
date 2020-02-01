@@ -11,7 +11,7 @@ import {
     Heading,
     List,
     ListItem,
-    Appear,
+    Appear
 } from 'spectacle';
 
 import { Slides } from "./slides";
