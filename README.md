@@ -23,3 +23,10 @@ Presentación de Open Speech Corpus (5 minutos)
 Se presenta Open Speech Corpus, un proyecto de código abierto con objetivo de recolectar voces masivamente de voluntarios para crear un corpus de gran vocabulario independiente de locutor para el idioma español
 
 Preguntas (10 minutos)
+
+
+---
+
+Notas: Originalmente las diapositivas de la charla estan en el archivo [decks/index.mdx](decks/index.mdx)
+
+Sin embargo para tener mas control sobre todos los componentes, se migra todo al archivo [src/slides.js](src/slides.js)

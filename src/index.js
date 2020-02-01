@@ -14,6 +14,8 @@ import {
     Appear,
 } from 'spectacle';
 
+import { Slides } from "./slides";
+
 // SPECTACLE_CLI_THEME_START
 const theme = createTheme(
   {
@@ -93,5 +95,6 @@ const RegularSlides = () => {
     )
 }
 
-render(createElement(MDXSlides, null), document.getElementById('root'));
+render(createElement(Slides, {theme}), document.getElementById('root'));
+// render(createElement(MDXSlides, null), document.getElementById('root'));
 // render(createElement(RegularSlides, null), document.getElementById('root'));
