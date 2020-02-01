@@ -7,7 +7,9 @@ import {
     Link,
     Image,
     Appear,
-    CodePane
+    CodePane,
+    List,
+    ListItem
 } from "spectacle";
 
 import { InlineMath, BlockMath } from 'react-katex';
@@ -27,6 +29,12 @@ import A_440_piano_fourier_with_harmonics from '../static/img/04_A_440_piano_fou
 import a_section_fourier_transform from '../static/img/05_a_section_fourier_transform.png'
 import male_a_spa from '../static/wav/05_male_a_spa.wav'
 import aparato_fonador from '../static/img/05_aparato_fonador.png'
+import male_a_spa_with_spectogram from '../static/img/05_male_a_spa_with_spectogram.png'
+import preemphasis from '../static/img/07_preemphasis.png'
+import windowed_frame from '../static/img/08_windowed_frame.png'
+import window_signals from '../static/img/08_window_signals.png'
+import window_signals_real_audio from '../static/img/08_window_signals_real_audio.png'
+import filterbanks from '../static/img/09_filterbanks.png'
 
 const fourier = `
 import numpy as np
@@ -46,6 +54,50 @@ plt.axvline(440*3,color="red")
 plt.axvline(440*4,color="red")
 plt.axvline(440*5,color="red")
 plt.axvline(440*6,color="red")
+`;
+
+const preemphasisPython = `
+np.append(wave[0], wave[1:]- 0.95*wave[:-1])
+`;
+
+const windowingPython = `
+frame_size = int(A440_freq*0.025)
+frame = A440[:frame_size]
+window =signal.windows.hamming(frame_size)
+windowed_frame = frame*window
+`;
+
+const triangularFilter = `
+fbank = np.zeros([number_of_filters, nfft])
+for i in range(0, number_of_filters):
+    for j in range(int(b[i]), int(b[i+1])):
+        fbank[i,j] = (j-b[i]) / (b[i+1] - b[i])
+    for j in range(int(b[i+1]), int(b[i+2])):
+        fbank[i,j] = (b[i+2] - j) / (b[i+2] - b[i+1])
+`;
+
+const plotTriangularFilter = `
+plt.plot(fbank[0])
+plt.plot(fbank[4])
+plt.plot(fbank[9])
+...
+plt.plot(fbank[34])
+plt.plot(fbank[39])
+`;
+
+const mfccPlainPython = `
+np.dot(
+    np.fft.ifft(
+        np.log(
+            np.absolute(
+                np.fft.fft(
+                    frame_real_wave*window
+                )
+            )
+        )
+    ),
+    fbank.T
+)
 `;
 
 export const Slides = (props) => (
@@ -123,7 +175,7 @@ export const Slides = (props) => (
             <InlineMath math="f(x) = \frac{1}{2} \, a_{0} + \sum_{n=1}^{\infty} \left[
    a_{n}\,\boldsymbol{\cos} (n\,x) + b_{n} \,\boldsymbol{\sin} (n\,x) \right]"/>
 
-<Divider/>
+            <Divider/>
             <Link href="https://www.youtube.com/watch?v=spUNpyF58BY">
                 <Text>
                     Pero ¿qué es la Transformada de Fourier? Una introducción visual
@@ -178,13 +230,172 @@ export const Slides = (props) => (
         </Slide>
         <Slide>
             <Heading size="2">
-
+                Y finalmente llegamos a un espectrograma
             </Heading>
+            <Image src={male_a_spa_with_spectogram}/>
         </Slide>
         <Slide>
             <Heading size="2">
-
+                Formantes Vocalicos para el espanol
             </Heading>
+            <Image src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Spanish_Vowel_Formants_Bradlow1995.png"/>
+            <Link href="https://es.wikipedia.org/wiki/Formante">
+                <Text>
+                    https://es.wikipedia.org/wiki/Formante
+                </Text>
+            </Link>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Sistema auditivo
+            </Heading>
+            <Image src="https://838dts3d6s-flywheel.netdna-ssl.com/wp-content/uploads/2014/03/Screen-Shot-2017-06-12-at-4.39.50-PM-1.png" width="60%"/>
+            <Link href="https://ncbegin.org/es/el-sistema-auditivo/">
+                <Text>
+                    https://ncbegin.org/es/el-sistema-auditivo/
+                </Text>
+            </Link>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Extraccion de caracteristicas
+            </Heading>
+            <List>
+                <Appear><ListItem>Mel Frequency Cepstral Coefficients (MFCC)</ListItem></Appear>
+                <Appear><ListItem>Perceptual Linear Prediction (PLP)</ListItem></Appear>
+                <Appear><ListItem>Linear Frequency Cepstral Coefficients (LFCC)</ListItem></Appear>
+                <Appear><ListItem>Power Normalized Cepstral Coefficients (PNCC)</ListItem></Appear>
+                <Appear><ListItem>Wavelet Package Features (WPF)</ListItem></Appear>
+                <Appear><ListItem>Subband-Based Cepstrap Parameters (SBC)</ListItem></Appear>
+                <Appear><ListItem>Mixed Wavelet Packet Advances Combinational Encoder (MWP-ACE)</ListItem></Appear>
+            </List>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                MFCC
+            </Heading>
+            <Appear>
+                <Heading size="3">
+                    Preemfasis
+                </Heading>
+            </Appear>
+            <Appear>
+                <Text>
+                    <InlineMath math="y[n] = x[n] - \alpha x[n-1] | 0.9 \le \alpha \le 1.0"/>
+                </Text>
+            </Appear>
+            <Appear>
+                <CodePane
+                    lang="python"
+                    source={preemphasisPython}
+                    margin="20px auto"
+                />
+            </Appear>
+            <Appear>
+                <Image src={preemphasis}/>
+            </Appear>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Windowing
+            </Heading>
+            <BlockMath math="y[n] = w[n]s[n]"/>
+            <Appear>
+                <div>
+                    <Text>
+                        Ventana Rectangular
+                    </Text>
+                    <BlockMath math="
+w[n]= \left\{ \begin{array}{lc}
+             1  & 0 \leq n \le L-1 \\
+             \\ 0 & n \lt 0 | n \gt L
+             \end{array}
+   \right."/>
+                </div>
+            </Appear>
+            <Appear>
+                <div>
+                    <Text>
+                        Ventana de Hamming
+                    </Text>
+                    <BlockMath math="
+w[n]= \left\{ \begin{array}{lc}
+             0.54 - 0.46 cos(\frac{2 \pi n}{L})  & 0 \leq n \le L-1 \\
+             \\ 0 & n \lt 0 | n \gt L
+             \end{array}
+   \right."/>
+                </div>
+            </Appear>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Windowing
+            </Heading>
+            <CodePane
+                lang="python"
+                source={windowingPython}
+            />
+            <Appear>
+                <Image src={window_signals}/>
+            </Appear>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Windowing
+            </Heading>
+            <Image src={windowed_frame}/>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Y en el audio real
+            </Heading>
+            <Image src={window_signals_real_audio}/>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Filtros Triangulares
+            </Heading>
+            <BlockMath math="
+H_m[k]= \left\{ \begin{array}{lc}
+  0  & k \lt f[m-1] \\
+  \frac{k-f[m-1]}{f[m]-f[m-1]} & f[m-1] \le k \le f[m] \\
+  \frac{f[m+1]-k}{f[m+1]-f[m]} & f[m] \le k \le f[m+1] \\
+  0 & k > f[m+1]
+             \end{array}
+   \right."/>
+            <Appear>
+                <CodePane
+                    lang="python"
+                    source={triangularFilter}
+                />
+            </Appear>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Filtros Triangulares
+            </Heading>
+            <CodePane
+                lang="python"
+                source={plotTriangularFilter}
+            />
+            <Image src={filterbanks} width="70%"/>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Cepstrum
+            </Heading>
+            <BlockMath math="
+c[n] = \sum_{n=0}^{N-1}log(\left| \sum _{n=0}^{N-1}x[n] e^{-j\frac{2 \pi}{N}kn}
+\right|)e^{j\frac{2 \pi}{N}kn}"/>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Y eso en Python como es?
+            </Heading>
+            <CodePane
+                lang="python"
+                source={mfccPlainPython}
+            />
         </Slide>
         <Slide>
             <Heading size="2">
