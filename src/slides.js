@@ -9,7 +9,8 @@ import {
     Appear,
     CodePane,
     List,
-    ListItem
+    ListItem,
+    Markdown
 } from "spectacle";
 
 import { InlineMath, BlockMath } from 'react-katex';
@@ -35,6 +36,13 @@ import windowed_frame from '../static/img/08_windowed_frame.png'
 import window_signals from '../static/img/08_window_signals.png'
 import window_signals_real_audio from '../static/img/08_window_signals_real_audio.png'
 import filterbanks from '../static/img/09_filterbanks.png'
+import simplified_fe from '../static/img/10_simplified_fe.png'
+import vq from '../static/img/11_vq.png'
+import gmm from '../static/img/12_gmm.png'
+import AFI from '../static/img/06_AFI.png'
+import queremos_redes from '../static/img/14_queremos_redes.jpg'
+import deepspeech_architecture from '../static/img/15_deepspeech_architecture.png'
+import donde_esta_la_data from '../static/img/20_donde_esta_la_data.gif'
 
 const fourier = `
 import numpy as np
@@ -98,6 +106,78 @@ np.dot(
     ),
     fbank.T
 )
+`;
+
+const kMeans = `
+transcription = "agua"
+num_clusters = len(set(transcription)) + 1
+kmeans = KMeans(n_clusters=num_clusters)
+results = kmeans.fit(mfccs)
+`;
+
+const gmmPython = `
+transcription = "agua"
+num_clusters = len(set(transcription)) + 1
+gmm = mixture.GaussianMixture(n_components=num_clusters)
+gmm.fit(mfccs)
+`;
+
+const mexbet = `
+Consonantes|Labiales|Labiodentales|Dentales|Alveolares|Palatales|Alveolares
+-|-|-|-|-|-|-
+Oclusivos Sordos|p||t|||k
+Oclusivos Sonoros|b||d|||g
+Africado Sordo|||||tS|
+Fricativos Sordos||f||s||x
+Fricativos Sonoros|||||Z|
+Nasales|m|||n|n~|
+Lateral||||l||
+Vibrantes||||r( r ||
+`;
+
+const mexbetVowels = `
+Vocales|Anteriores|Media|Posteriores
+-|-|-|-
+Cerradas|i||u
+Medias|e||o
+Abierta||a|
+`;
+
+const data = `
+Resource name|URL|Licence|Annotation|Length
+-|-|-|-|-|
+CIEMPIESS|[ciempiess.org](http://www.ciempiess.org/downloads)|CC v4.0| Utterance | 17h
+DIMEx100|[turing.iimas.unam.mx](http://turing.iimas.unam.mx/~luis/DIME/CORPUS-DIMEX.html)| - |Phonetic|5h
+VoxForge|[VoxForge.org](voxforge.org)| GPL | Utterance | 50+
+Common Voice|[voice.mozilla.org](https://voice.mozilla.org/en/datasets)| CC | Uterance | 27+
+M-AILABS|[caito.de](https://www.caito.de/2019/01/the-m-ailabs-speech-dataset/#more-242)| Custom | Uterance | 108
+Heroico|[Open SLR 39](http://www.openslr.org/39/)| - | Uterance | 13
+TEDx Spanish Corpus | [Open SLR 67](http://www.openslr.org/67/)| CC v4.0 | Utterance | 24
+Google Language Resources AR, CH, CO, PR PR VE | [Open SLR 71](http://www.openslr.org/71/) | CC v4.0 | Uterance | -
+LibriVox Spanish | [LDC2020S01](https://catalog.ldc.upenn.edu/LDC2020S01)|Librivox Open Licence|Uterance| 73
+`;
+
+const flaskRecognizer = `
+@app.route("/recognize", methods=["GET", "POST"])
+def recognize():
+    if request.method == "POST":
+        if "audio" not in request.files:
+            return ({"response": "You must specify an audio parameter with
+                                  a wav file"}, 400)
+        audio_file = sr.AudioFile(request.files["audio"])
+        with audio_file as source:
+            audio = recognizer.record(source)
+            hypothesis = recognizer.recognize_sphinx(
+                audio,
+                ( 'isolated_words_spa/words1.cd_semi_200',
+                  'isolated_words_spa/words1.lm.DMP',
+                  'isolated_words_spa/words1.dic'
+                )
+            )
+        return {"reponse": "Audio processed", "hypothesis": hypothesis}
+    else:
+        return {"response": "Please use the POST method and specify audio
+                             parameter with a wav file"}
 `;
 
 export const Slides = (props) => (
@@ -398,25 +478,304 @@ c[n] = \sum_{n=0}^{N-1}log(\left| \sum _{n=0}^{N-1}x[n] e^{-j\frac{2 \pi}{N}kn}
             />
         </Slide>
         <Slide>
+            <Heading size="4">
+                Pero yo no tengo tiempo de ponerme a implementar extractores de caracteristicas
+            </Heading>
+            <List>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://librosa.github.io/librosa/generated/librosa.feature.mfcc.html">
+                            LibRosa
+                        </Link>
+                    </ListItem>
+                </Appear>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://github.com/jameslyons/python_speech_features">
+                            Speech Features
+                        </Link>
+                    </ListItem>
+                </Appear>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://github.com/MycroftAI/sonopy">
+                                Sonopy
+                        </Link>
+                    </ListItem>
+                </Appear>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://github.com/astorfi/speechpy">
+                                SpeechPy
+                        </Link>
+                    </ListItem>
+                </Appear>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://github.com/ddbourgin/numpy-ml">
+                                Numpy ML
+                        </Link>
+                    </ListItem>
+                </Appear>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://github.com/gionanide/Speech_Signal_Processing_and_Classification">
+                                Speech Signal Processing and Classification
+                        </Link>
+                    </ListItem>
+                </Appear>
+            </List>
+        </Slide>
+        <Slide>
             <Heading size="2">
-
+                Y Porque tan emocionado?
+            </Heading>
+            <Image src={simplified_fe}/>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                AX = b
+            </Heading>
+            <Appear><Heading size="4">Aja, y cual b</Heading></Appear>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Un K-Means despues
+            </Heading>
+            <CodePane
+                source={kMeans}
+                lang="python"
+            />
+            <Image src={vq}/>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                GMM
+            </Heading>
+            <Appear>
+                <Text>
+                    <BlockMath math="
+f(x|\mu,\Sigma) =\sum_{k=1}^{M}{c_k\frac{1}{\sqrt{2\pi|\Sigma_k|}}e^{(x-\mu_k)^T\Sigma^{-1}(x-\mu_k)}}
+"
+                    />
+                </Text>
+            </Appear>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                GMM
+            </Heading>
+            <CodePane
+                source={gmmPython}
+                lang="python"
+            />
+            <Image src={gmm}/>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Muy bien con las ondas, y el lenguaje que?
             </Heading>
         </Slide>
         <Slide>
             <Heading size="2">
-
+                Alfabeto Fonetico Internacional
+            </Heading>
+            <Image src={AFI} />
+            <Link href="https://es.wikipedia.org/wiki/Alfabeto_Fon%C3%A9tico_Internacional">
+                <Text>
+                    https://es.wikipedia.org/wiki/Alfabeto_Fon%C3%A9tico_Internacional
+                </Text>
+            </Link>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Aparato fonador
+            </Heading>
+            <Image src={aparato_fonador}/>
+            <Link href="http://irenemena99.blogspot.com/2016/02/aparato-fonador.html">
+                <Text>
+                    http://irenemena99.blogspot.com/2016/02/aparato-fonador.html
+                </Text>
+            </Link>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                <Link href="http://www.ciempiess.org/Alfabetos_Foneticos/Evolucion_de_MEXBET.html">MEXBET</Link>
+            </Heading>
+            <Markdown source={mexbet}/>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                MEXBET - Vocales
+            </Heading>
+            <Markdown source={mexbetVowels}/>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Lexicon
             </Heading>
         </Slide>
         <Slide>
             <Heading size="2">
-
+                Modelo de Lenguaje
+            </Heading>
+            <Appear>
+                <Text>
+                    <BlockMath math="P(w_1^n) = \prod_{k=1}^{n}{P(w_k|w_1^{k-1})}"/>
+                </Text>
+            </Appear>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Generacion del modelo acustico con HMM
+            </Heading>
+            <List>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://en.wikipedia.org/wiki/Baum%E2%80%93Welch_algorithm">
+                            Entrenamiento con el Algoritmo Baum-Welch
+                        </Link>
+                    </ListItem>
+                </Appear>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://en.wikipedia.org/wiki/Viterbi_algorithm">
+                            Decodificacion con el Algoritmo de Viterbi
+                        </Link>
+                    </ListItem>
+                </Appear>
+            </List>
+        </Slide>
+        <Slide>
+            <Image src={queremos_redes}/>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Redes Neuronales
+            </Heading>
+            <List>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://github.com/mozilla/DeepSpeech">
+                            Deep Speech
+                        </Link>
+                    </ListItem>
+                </Appear>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://github.com/buriburisuri/speech-to-text-wavenet">
+                            Speech to Text Wavenet
+                        </Link>
+                    </ListItem>
+                </Appear>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://github.com/nl8590687/ASRT_SpeechRecognition">
+                            ASRT Speech Recognition
+                        </Link>
+                    </ListItem>
+                </Appear>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://github.com/PaddlePaddle/DeepSpeech">
+                            Deep Speech 2
+                        </Link>
+                    </ListItem>
+                </Appear>
+            </List>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Arquitectura de DeepSpeech
+            </Heading>
+            <Image src={deepspeech_architecture}/>
+            <Link href="https://arxiv.org/abs/1412.5567">
+                Archive page
+            </Link>
+            <Divider height={"5vh"}/>
+            <Link href="https://www.youtube.com/watch?v=ZDgHS0wTYuo">
+                Deep Speech: Free(ing) Speech with Deep Learning
+            </Link>
+        </Slide>
+        <Slide>
+            <Image src={donde_esta_la_data}/>
+        </Slide>
+        <Slide>
+            <Markdown source={data}/>
+            <Link href="https://github.com/open-speech-org/openspeechresources">
+                https://github.com/open-speech-org/openspeechresources
+            </Link>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Open Speech Corpus
+            </Heading>
+            <List>
+                <Appear><ListItem>Cuentos</ListItem></Appear>
+                <Appear><ListItem>Afasia</ListItem></Appear>
+                <Appear><ListItem>Palabras aisladas</ListItem></Appear>
+            </List>
+            <List>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://play.google.com/store/apps/details?id=com.contraslash.android.openspeechcorpus">
+                            Aplicacion movil
+                        </Link>
+                    </ListItem>
+                </Appear>
+                <Appear>
+                    <ListItem>
+                        <Link href="https://pypi.org/project/openspeechcorpus/">
+                            CLI
+                        </Link>
+                    </ListItem>
+                </Appear>
+            </List>
+        </Slide>
+        <Slide>
+            <Image src="https://lh3.googleusercontent.com/XDvOFQGYiX12Lnhd6kKq4DzCqzlnI7YKCS5ZvQkZGat2uQpniCl9DYQSe_7nihgVRhI=w1440-h799-rw"/>
+        </Slide>
+        <Slide>
+            <Image src="https://lh3.googleusercontent.com/LARaD4yTgHpqg7ys9KvMkMiJUtDghwXBiK5L9lxHR_-r3J4-adCjWe3FjAi4ApLGRbU=w1440-h799-rw"/>
+        </Slide>
+        <Slide>
+            <Image src="https://lh3.googleusercontent.com/G6oQm-rQnyY9oMIynpLlXG7zKscQFkwMD20qpzEKFCUzYQIT_TviEDPr76r6Qq_crWI=w1440-h799-rw"/>
+        </Slide>
+        <Slide>
+            <Heading size="2">
+                Nada mas facil para comenzar?
             </Heading>
         </Slide>
         <Slide>
             <Heading size="2">
-
+                <Link href="https://pypi.org/project/SpeechRecognition/">
+                    Speech Recognition
+                </Link>
             </Heading>
+            <List>
+                <Appear><ListItem><Link href="http://cmusphinx.sourceforge.net/wiki/">CMU Sphinx</Link></ListItem></Appear>
+                <Appear><ListItem><Link href="https://cloud.google.com/speech/">Google Cloud Speech API</Link></ListItem></Appear>
+                <Appear><ListItem><Link href="https://wit.ai/">Wit.ai</Link></ListItem></Appear>
+                <Appear><ListItem><Link href="https://www.microsoft.com/cognitive-services/en-us/speech-api">Microsoft Bing Voice Recognition</Link></ListItem></Appear>
+                <Appear><ListItem><Link href="https://houndify.com/">Houndify API</Link></ListItem></Appear>
+                <Appear><ListItem><Link href="http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/speech-to-text.html">IBM Speech to Text</Link></ListItem></Appear>
+                <Appear><ListItem><Link href="https://snowboy.kitt.ai/">Snowboy Hotword Detection</Link></ListItem></Appear>
+            </List>
+        </Slide>
+        <Slide>
+            <CodePane
+                source={flaskRecognizer}
+                lang="python"
+            />
+        </Slide>
+        <Slide>
+            <Image src="https://i.kym-cdn.com/entries/icons/original/000/028/021/work.jpg"/>
+        </Slide>
+        <Slide>
+            <Text >
+                Dar las gracias y huir
+            </Text>
+            <Image src="https://media.giphy.com/media/9rRacglGbs68E/giphy.gif"/>
         </Slide>
     </Deck>
 );
-
