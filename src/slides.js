@@ -36,6 +36,7 @@ import windowed_frame from '../static/img/08_windowed_frame.png'
 import window_signals from '../static/img/08_window_signals.png'
 import window_signals_real_audio from '../static/img/08_window_signals_real_audio.png'
 import filterbanks from '../static/img/09_filterbanks.png'
+import mfcc_diagram from '../static/img/09_mfcc.png'
 import simplified_fe from '../static/img/10_simplified_fe.png'
 import vq from '../static/img/11_vq.png'
 import gmm from '../static/img/12_gmm.png'
@@ -467,6 +468,12 @@ H_m[k]= \left\{ \begin{array}{lc}
             <BlockMath math="
 c[n] = \sum_{n=0}^{N-1}log(\left| \sum _{n=0}^{N-1}x[n] e^{-j\frac{2 \pi}{N}kn}
 \right|)e^{j\frac{2 \pi}{N}kn}"/>
+        </Slide>
+        <Slide>
+          <Heading size="2">
+            MFCC
+          </Heading>
+          <Image src={mfcc_diagram}/>
         </Slide>
         <Slide>
             <Heading size="2">
