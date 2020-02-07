@@ -198,6 +198,15 @@ export const Slides = (props) => (
         </Slide>
         <Slide>
             <Heading size="2" >
+                Posts
+            </Heading>
+            <List>
+                <Appear><ListItem><Link href="https://medium.com/contraslashsas/hablemos-de-voz-56bbfe725e62">Hablemos de Voz</Link></ListItem></Appear>
+                <Appear><ListItem><Link href="https://medium.com/contraslashsas/lets-talk-about-voice-e6f7f4dad156">Let’s talk about Voice</Link></ListItem></Appear>
+            </List>
+        </Slide>
+        <Slide>
+            <Heading size="2" >
                 Qué es la voz?
             </Heading>
             <Divider/>
